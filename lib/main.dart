@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './display.dart';
 
 void main() {
   runApp(const BmiCalculator());
@@ -17,6 +18,8 @@ class _BmiCalculatorState extends State<BmiCalculator> {
   double _value = 0;
   int weight = 0;
   int age = 0;
+  var answer;
+
   void bmiResult(
     num1,
     num2,
@@ -24,8 +27,10 @@ class _BmiCalculatorState extends State<BmiCalculator> {
     var height = (num1 / 100) * (num1 / 100);
     var w1 = num2;
     if (_value != null && weight != null && age != null) {
-      var bmi = (w1 / height);
-      print(bmi);
+      answer = (w1 / height);
+      print(answer);
+    } else {
+      const Text('Key In Some Valid Data');
     }
   }
 
@@ -301,14 +306,20 @@ class _BmiCalculatorState extends State<BmiCalculator> {
               const SizedBox(
                 height: 15,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  bmiResult(
-                    _value,
-                    weight,
-                  );
-                },
-                child: const Text('CALCULATE YOUR BMI'),
+              Builder(
+                builder: (context) => ElevatedButton(
+                  onPressed: () {
+                    bmiResult(
+                      _value,
+                      weight,
+                    );
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => Display(answer)));
+                  },
+                  child: const Text('CALCULATE YOUR BMI'),
+                ),
               )
             ],
           )),
